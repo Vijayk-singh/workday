@@ -3,24 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchJobListingsSuccess } from "./redux/actions";
 import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined';
 import Filters from "./Filters";
-
-import {
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Grid,
-  Chip,
-  CardActions,
-  Container,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  CardMedia,
-  Box,
-  Stack,
-} from "@mui/material";
-
+import { Card, CardContent, Typography, Button, Grid, Chip, CardActions, Container, Dialog, DialogContent, DialogActions, CardMedia, Box, Stack } from "@mui/material";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +19,7 @@ function App() {
   const handleClosePopup = () => {
     setSelectedJob(null);
   };
+
   useEffect(() => {
     fetchJobListings();
   }, [page]); // Fetch job listings when the page changes
@@ -81,9 +65,7 @@ function App() {
         <h1>Job Listings</h1>
         <Filters />
         <Grid container spacing={4}>
-          {jobListings
-          // .filter((job)=>{return role.toLowercase() == ''? job:job.role.toLowercase().includes(role)})
-          .map((job) => (
+          {jobListings.map((job) => (
             <Grid item xs={12} sm={6} md={4} key={job.id}>
               <Card variant="outlined" sx={{ borderRadius: 5 }}>
                 <CardContent sx={{ margin: 1 }}>
@@ -130,7 +112,6 @@ function App() {
                       textShadow: "2px -23px 92px 44px rgb(230,230,230,0.8)",
                       WebkitBoxShadow: " 2px -23px 92px 44px rgb(230,230,230,0.8)",
                       MozBoxShadow: "2px -23px 92px 44px rgb(230,230,230,0.8)",
-                     
                       backgroundColor: "rgb(240,240,240)",
                       color:'blue',
                       opacity:0.6
@@ -163,11 +144,10 @@ function App() {
                   </Grid>
                   
                   <Grid item >
-                  <Button variant="contained"  sx={{width:'100%',height:55, fontStyle:'bold', paddingRight:10, paddingLeft:10,borderRadius:4, color:'black',backgroundColor: 'rgb(51,255,255)', // Aqua green background color
-    '&:hover': {
-      backgroundColor: '#33FF99',
-      color:'white' // Light green background color on hover
-    },}} startIcon={<BoltOutlinedIcon/>}>
+                  <Button variant="contained"  sx={{width:'100%',height:55, fontStyle:'bold', paddingRight:10, paddingLeft:10,borderRadius:4, color:'black',backgroundColor: 'rgb(51,255,255)', '&:hover': {
+                    backgroundColor: '#33FF99',
+                    color:'white'
+                  },}} startIcon={<BoltOutlinedIcon/>}>
                     Easy Apply
                   </Button>
                   </Grid>

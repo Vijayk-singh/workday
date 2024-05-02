@@ -1,4 +1,5 @@
 // redux/reducers.js
+
 import { FETCH_JOB_LISTINGS_SUCCESS, APPLY_FILTERS } from './actions';
 
 const initialState = {
@@ -24,7 +25,10 @@ const rootReducer = (state = initialState, action) => {
     case APPLY_FILTERS:
       return {
         ...state,
-        filters: action.payload,
+        filters: {
+          ...state.filters,
+          ...action.payload,
+        },
       };
     default:
       return state;

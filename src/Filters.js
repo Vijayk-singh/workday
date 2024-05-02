@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
@@ -11,160 +11,116 @@ import {
   Box,
 } from "@mui/material";
 import { applyFilters } from "./redux/actions";
+import SelectChip from "./SelectChip";
+import CheckboxesTags from "./CheckBoxesTags";
 
 function Filters() {
   const dispatch = useDispatch();
-  const [filters, setFilters] = useState({
-    minExperience: "",
-    companyName: "",
-    location: "",
-    workType: "",
-    techStack: "",
-    role: "",
-    minBasePay: "",
-  });
+  const filters = useSelector((state) => state.filters);
 
-  const jobs = useSelector((state) => state.jobListings);
-
-  const allminExperiance = new Set();
-  const allcompany = new Set();
-  const alllocation = new Set();
-  const allremote = ["Remote", "On-Site"];
-  const alltechStack = new Set();
-  const allrole = new Set();
-  const allminBase = new Set();
-  jobs.forEach((e) => {
-    alllocation.add(e.location);
-    allcompany.add(e.company);
-    allrole.add(e.jobRole);
-    allminExperiance.add(e.experiance);
-  });
-  const locationarr = Array.from(alllocation);
-  const experiancearr = Array.from(allminExperiance);
-  const rolearr = Array.from(allrole);
-  
-  console.log("heloo", locationarr);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
+    dispatch(applyFilters({ ...filters, [name]: value }));
   };
-  console.log(filters);
-  const handleApplyFilters = () => {
-    dispatch(applyFilters(filters));
-  };
+
+  const data = ["Frontend", "Backend", "Android", "Tech Lead"];
 
   return (
     <div>
       <Container>
-        <Box>
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="min-experience-label">Min Experience</InputLabel>
-            <Select
-              sx={{ height: 40 }}
-              labelId="min-experience-label"
-              id="min-experience"
-              name="minExperience"
-              value={filters.minExperience}
-              label="Min Experience"
+        <Box display="flex" flexDirection="column" gap={2}>
+         
+
+          <Box display="flex" gap={2} >
+            <SelectChip name="role" data={data} />
+
+            <CheckboxesTags name="Techstack" data={data} />
+
+            <SelectChip name="Location Type" data={["Remote", "In-Office"]} />
+          </Box>
+
+          <Box display="flex" alignItems="center" justifyContent="" gap={2} sx={{marginBottom:5}}>
+            <TextField
+              label="Search Company"
+              name="search"
+              value={filters.search}
               onChange={handleChange}
-            >
+              size="small"
+            />
+ <Box display="flex" alignItems="center" gap={1}>
+            <FormControl>
+              <InputLabel id="location-label" size="small">
+                Location
+              </InputLabel>
+              <Select
+                labelId="location-label"
+                id="location-label"
+                label="Location"
+                name="location"
+                value={filters.location || ""}
+                onChange={handleChange}
+                size="small"
+                sx={{ minWidth: "150px" }}
+              >
                 <MenuItem value="All">All</MenuItem>
-              {experiancearr.map((e) => (
-                <MenuItem value={e} label={e}>
-                  {e}
-                </MenuItem>
-              ))}
+                <MenuItem value="Delhi NCR">Delhi NCR</MenuItem>
+                <MenuItem value="Banglore">Banglore</MenuItem>
+                <MenuItem value="Telngana">Telngana</MenuItem>
+                <MenuItem value="Mumbai">Mumbai</MenuItem>
+              </Select>
+            </FormControl>
 
-              {/* Add more options as needed */}
-            </Select>
-          </FormControl>
+            <FormControl>
+              <InputLabel id="min-experience-label" size="small">
+                Min Experience
+              </InputLabel>
+              <Select
+                labelId="min-experience-label"
+                id="min-experience"
+                name="minExperience"
+                value={filters.minExperience || ""}
+                label="Min Experience"
+                onChange={handleChange}
+                size="small"
+                sx={{ minWidth: "150px" }}
+              >
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="1">1 Year</MenuItem>
+                <MenuItem value="2">2 Years</MenuItem>
+                <MenuItem value="3">3 Years</MenuItem>
+              </Select>
+            </FormControl>
 
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="location-label">Location</InputLabel>
-            <Select
-              sx={{ height: 40 }}
-              labelId="location-label"
-              id="location-label"
-              label="Location"
-              name="location"
-              value={filters.location} // Set the value of the select dropdown to the location filter state
-              onChange={handleChange}
+            <FormControl>
+              <InputLabel id="min-basepay-label" size="small">
+                Min BasePay
+              </InputLabel>
+              <Select
+                labelId="min-basepay-label"
+                id="min-basepay"
+                name="minBasePay"
+                value={filters.minBasePay || ""}
+                label="Min BasePay"
+                onChange={handleChange}
+                size="small"
+                sx={{ minWidth: "150px" }}
+              >
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="2L">2L</MenuItem>
+                <MenuItem value="3L">3L</MenuItem>
+                <MenuItem value="4L">4L</MenuItem>
+                <MenuItem value="5L">5L</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+            {/* <Button
+              onClick={() => dispatch(applyFilters(filters))}
+              variant="contained"
+              color="primary"
             >
-              <MenuItem value="All">All</MenuItem>
-              {locationarr.map((location) => (
-                <MenuItem key={location} value={location}>
-                  {location}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="work-type-label">Work Type</InputLabel>
-            <Select
-              sx={{ height: 40 }}
-              labelId="work-type-label"
-              id="work-type"
-              name="workType"
-              value={filters.workType}
-              label="Work Type"
-              onChange={handleChange}
-            >
-              <MenuItem value="All">All</MenuItem>
-              <MenuItem value="Remote">Remote</MenuItem>
-              <MenuItem value="On-site">On-site</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="techstack-label">Techstack</InputLabel>
-            <Select
-              sx={{ height: 40 }}
-              labelId="techstack-label"
-              id="techstack-label"
-              label="Techstack"
-              name="techstack"
-              value={filters.location} // Set the value of the select dropdown to the location filter state
-              onChange={handleChange}
-            >
-              <MenuItem value="All">All</MenuItem>
-              {/* {locationarr.map((location) => (
-                <MenuItem key={location} value={location}>
-                  {location}
-                </MenuItem>
-              ))} */}
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="work-type-label">Role</InputLabel>
-            <Select
-              sx={{ height: 40 }}
-              labelId="role-label"
-              id="role-type"
-              name="roletype"
-              value={filters.workType}
-              label="Role"
-              onChange={handleChange}
-            >
-              <MenuItem value="All">All</MenuItem>
-              {rolearr.map((e) => (
-                <MenuItem value={e} label={e}>
-                  {e}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl></FormControl>
-          {/* Add select fields for Tech Stack, Role, and Min Base Pay similarly */}
-          <Button
-            onClick={handleApplyFilters}
-            variant="contained"
-            color="primary"
-          >
-            Apply Filters
-          </Button>
+              Apply Filters
+            </Button> */}
+          </Box>
         </Box>
       </Container>
     </div>
