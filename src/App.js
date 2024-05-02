@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchJobListingsSuccess } from "./redux/actions";
 import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined';
 import Filters from "./Filters";
+
 import {
   Card,
   CardContent,
@@ -19,7 +20,8 @@ import {
   Box,
   Stack,
 } from "@mui/material";
-const aquagreen="3AEEF5";
+
+
 function App() {
   const dispatch = useDispatch();
   const jobListings = useSelector((state) => state.jobListings);
@@ -79,7 +81,9 @@ function App() {
         <h1>Job Listings</h1>
         <Filters />
         <Grid container spacing={4}>
-          {jobListings.map((job) => (
+          {jobListings
+          // .filter((job)=>{return role.toLowercase() == ''? job:job.role.toLowercase().includes(role)})
+          .map((job) => (
             <Grid item xs={12} sm={6} md={4} key={job.id}>
               <Card variant="outlined" sx={{ borderRadius: 5 }}>
                 <CardContent sx={{ margin: 1 }}>
