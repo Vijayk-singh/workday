@@ -12,6 +12,7 @@ export default function SelectChip(props) {
       options={props.data}
       getOptionLabel={(option) => option}
       sx={{ minWidth: 300 }}
+      onChange={props.onChange}
       // defaultValue={[top100Films[13], top100Films[12], top100Films[11]]}
       renderInput={(params) => (
         <TextField {...params} label={props.name} placeholder="" limitTags={2}

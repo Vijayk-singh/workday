@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
+import { useDispatch, useSelector } from "react-redux";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -35,9 +35,9 @@ export default function CheckboxesTags(props) {
           {option}
         </li>
       )}
-    //   style={{ width: 500 }}
+      style={{ width: '100%' }}
       renderInput={(params) => (
-        <TextField {...params} label={props.name} placeholder={props.name} size='small' sx={{ minWidth: 300 }}/>
+        <TextField {...params} label={props.name} placeholder={props.name} size='small' sx={{ minWidth: 300 }} onChange={props.onChange}/>
       )}
     />
   );
